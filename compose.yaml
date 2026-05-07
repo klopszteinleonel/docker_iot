@@ -8,4 +8,5 @@ services:
       - TOPICO1=${TOPICO1}
       - TOPICO2=${TOPICO2}
       - TOPICO_PUB=${TOPICO_PUB}
+    stop_signal: SIGINT
     restart: unless-stopped
