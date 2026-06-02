@@ -85,8 +85,14 @@ async def cmd_destello(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # --- HANDLERS ORIGINALES ---
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logging.info("se conectó: " + str(update.message.from_user.id))
-    nombre = update.message.from_user.first_name if update.message.from_user.first_name else ""
-    apellido = update.message.from_user.last_name if update.message.from_user.last_name else ""
+    if update.message.from_user.first_name:
+        nombre=update.message.from_user.first_name
+    else:
+        nombre=""
+    if update.message.from_user.last_name:
+        apellido=update.message.from_user.last_name
+    else:
+        apellido=""
     
     kb = [["setpoint", "periodo", "modo"], ["rele", "destello"]]
     await context.bot.send_message(update.message.chat.id, text=f"Bienvenido al Bot {nombre} {apellido}", reply_markup=ReplyKeyboardMarkup(kb, resize_keyboard=True))
@@ -95,7 +101,7 @@ async def acercade(update: Update, context):
     await context.bot.send_message(update.message.chat.id, text="Este bot fue creado para el curso de IoT FIO")
 
 async def kill(update: Update, context):
-
+    logging.info(context.args)
     if context.args and context.args[0] == '@e':
         await context.bot.send_animation(update.message.chat.id, "CgACAgQAAxkBAAMIahiDNVZQ9KWbP_zQlPxEMZ-n0e8AAu4FAAKXKVxS8yEdEF__M-c7BA")
         await asyncio.sleep(2)
@@ -113,11 +119,11 @@ def main():
     application.add_handler(CommandHandler('kill', kill))
     
     # Comandos MQTT
-    application.add_handler(CommandHandler('setpoint', cmd_setpoint))
-    application.add_handler(CommandHandler('periodo', cmd_periodo))
-    application.add_handler(CommandHandler('modo', cmd_modo))
-    application.add_handler(CommandHandler('rele', cmd_rele))
-    application.add_handler(CommandHandler('destello', cmd_destello))
+    application.add_handler(MessageHandler('setpoint', cmd_setpoint))
+    application.add_handler(MessageHandler('periodo', cmd_periodo))
+    application.add_handler(MessageHandler('modo', cmd_modo))
+    application.add_handler(MessageHandler('rele', cmd_rele))
+    application.add_handler(MessageHandler('destello', cmd_destello))
     
     application.run_polling()
 
