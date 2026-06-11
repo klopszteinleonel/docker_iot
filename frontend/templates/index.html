@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control IoT</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="background-elements">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <h1>Panel de Control <span class="accent">IoT</span></h1>
+            <p class="subtitle">Gestiona tus nodos Raspberry Pi Pico</p>
+        </header>
+
+        <section class="glass-panel">
+            <div class="form-group">
+                <label for="mac-select">Seleccionar Nodo (MAC)</label>
+                <div class="input-with-button">
+                    <select id="mac-select">
+                        <option value="" disabled selected>Elige un nodo guardado...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group new-mac-group">
+                <label for="new-mac">Añadir Nuevo Nodo</label>
+                <div class="input-with-button">
+                    <input type="text" id="new-mac" placeholder="Ej: 2CCF67B72EC0" maxlength="17" autocomplete="off">
+                    <button type="button" id="btn-add-mac" class="btn btn-secondary">Añadir</button>
+                </div>
+                <small class="hint">Ingresa la dirección MAC sin dos puntos o con ellos.</small>
+            </div>
+
+            <hr class="divider">
+
+            <div class="commands-section">
+                <h2>Comandos</h2>
+                
+                <div class="command-card">
+                    <div class="command-info">
+                        <h3>Destello de Identificación</h3>
+                        <p>Hace parpadear el LED del nodo para identificarlo físicamente.</p>
+                    </div>
+                    <button type="button" id="btn-destello" class="btn btn-primary" disabled>
+                        <span class="icon">✨</span> Enviar Destello
+                    </button>
+                </div>
+
+                <div class="command-card">
+                    <div class="command-info">
+                        <h3>Ajustar Setpoint</h3>
+                        <p>Modifica la temperatura de corte de la caldera.</p>
+                        <div class="input-wrapper">
+                            <input type="number" id="setpoint-value" placeholder="Ej: 22.5" step="0.1">
+                            <span class="unit">°C</span>
+                        </div>
+                    </div>
+                    <button type="button" id="btn-setpoint" class="btn btn-primary" disabled>
+                        <span class="icon">🌡️</span> Enviar Setpoint
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

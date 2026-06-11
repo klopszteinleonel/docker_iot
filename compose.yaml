@@ -128,5 +128,19 @@ services:
     restart: unless-stopped
     depends_on:
       - mariadb
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    environment:
+      - MQTT_SERVER=${SERVIDOR}
+      - MQTT_PORT=${PUERTO_MQTTS}
+      - MQTT_USER=${MQTT_USR}
+      - MQTT_PASS=${MQTT_PASS}
+    ports:
+      - "8001:5000"
+    restart: unless-stopped
+    depends_on:
+      - mosquitto
 volumes:
   portainer_data:
