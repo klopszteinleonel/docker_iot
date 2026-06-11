@@ -4,8 +4,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>FLASK CRUD 1.6</title>
-  <!-- <link rel="stylesheet" href="https://bootswatch.com/5/cosmo/bootstrap.min.css"> -->
-  <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
+  <link id="theme-stylesheet" rel="stylesheet" href="https://bootswatch.com/5/cosmo/bootstrap.min.css">
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'claro';
+    const themeLink = document.getElementById('theme-stylesheet');
+    if (savedTheme === 'oscuro') {
+      themeLink.href = 'https://bootswatch.com/5/darkly/bootstrap.min.css';
+    } else {
+      themeLink.href = 'https://bootswatch.com/5/cosmo/bootstrap.min.css';
+    }
+  </script>
   {% with messages = get_flashed_messages() %} {% if messages %}
   {% for message in messages %}
   <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -18,8 +26,17 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="#">CRUD</a>
       {% if session.get("user_id") %}
-      <div class="d-flex">
-        <div class="nav-item pe-3 pt-2">{{ session.get("user_id") }}</div>
+      <div class="d-flex align-items-center">
+        <div class="dropdown me-3">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="themeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Tema
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="themeDropdown">
+            <li><a class="dropdown-item" href="#" onclick="setTheme('claro'); return false;">Claro</a></li>
+            <li><a class="dropdown-item" href="#" onclick="setTheme('oscuro'); return false;">Oscuro</a></li>
+          </ul>
+        </div>
+        <div class="nav-item pe-3">{{ session.get("user_id") }}</div>
         <a href="{{url_for('logout')}}" class="btn btn-secondary my-2 my-sm-0" type="submit">Salir</a>
       </div>
       {% endif %}
